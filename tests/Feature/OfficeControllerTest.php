@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Office;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -47,4 +48,28 @@ class OfficeControllerTest extends TestCase
         $response->assertOk();
         $response->assertJsonCount(3,'data');
     }
+
+    /**
+     * @test
+     */
+    public function itFiltersByHostId()
+    {
+        Office::factory(3)->create();
+
+        $host =User::factory()->create();
+
+        $office =Office::factory()->for($host)->create();
+
+        $response = $this->get(
+            '/api/offices?host_id='. $host->id
+        );
+
+        $response->assertOk();
+        $response->assertJsonCount(1,'data');
+        $this->assertEquals($office->id,$response->json('data')[0]['id']);
+
+
+    }
+
+
 }

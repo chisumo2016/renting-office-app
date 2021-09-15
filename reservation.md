@@ -72,7 +72,7 @@ themsaid/ergodnc
 
 [x] Show only approved and visible record
 
-[ ] Filter by hoists
+[x] Filter by hoists
 
 [ ] Filter by users
 
