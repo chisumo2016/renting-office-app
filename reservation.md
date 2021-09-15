@@ -5,14 +5,17 @@ Git Hub
 themsaid/ergodnc
 
 # Setup Migration ,Models , Factories
-Users
-Tags
-Offices
-images
-reservation
 
-[] Prepare Migrations
+[x] Prepare Migrations
+    - Users
+    - Tags
+    - Offices
+    - images
+    - reservation
 []Seed the Initial tags
+   -In migration table
+   Mass Assigement 
+      -ServiceProveider
 []Prepare Models
 []Prepare Factories
 []Prepare Resources
@@ -22,9 +25,9 @@ reservation
     -Tests
 
 []Offices
--List office
--Read Office
--Create Office
+    -List office
+    -Read Office
+    -Create Office
 
 abobker autocomplete
 
