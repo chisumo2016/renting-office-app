@@ -74,7 +74,7 @@ themsaid/ergodnc
 
 [x] Filter by hoists
 
-[ ] Filter by users
+[x] Filter by users
 
 [ ] Include tags, Images and user
 

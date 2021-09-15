@@ -15,7 +15,10 @@ class OfficeController extends Controller
         $offices = Office::query('id', 'DESC')//->orderBy('id','DESC')
                     ->where('approval_status', Office::APPROVAL_APPROVED)
                     ->where('hidden', false)
-                     ->when(request('host_id'), fn($builder) => $builder->whereUserId(request('host_id')))
+                     ->when(request('host_id'),
+                         fn($builder) => $builder->whereUserId(request('host_id')))
+                     ->when(request('user_id'),
+                         fn($builder) => $builder->whereRelation('reservations', 'user_id' , '=' , request('user_id')))
                     ->latest('id')
                     ->paginate(20);
 
