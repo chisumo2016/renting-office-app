@@ -14,7 +14,7 @@ class OfficeController extends Controller
 
         $offices = Office::query('id', 'DESC')//->orderBy('id','DESC')
                     ->latest('id')
-                    ->get();
+                    ->paginate(20);
 
         return OfficeResource::collection(
             $offices
