@@ -19,8 +19,15 @@ themsaid/ergodnc
 [x]Prepare Models
       -Relationship
       -Casts
-[] Prepare Factories
-[] Prepare Resources
+[x] Prepare Factories
+     -Adding the const value in the model and use in factories
+[x] Prepare Resources
+      - php artisan make:resource UserResource
+      -  php artisan make:resource OfficeResource  
+      -  php artisan make:resource ReservationResource
+      -  php artisan make:resource TagResource
+      -   php artisan make:resource ImageResource
+
 [] Tags
     -Routes
     -Controller
