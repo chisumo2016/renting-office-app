@@ -12,7 +12,7 @@ themsaid/ergodnc
     - Offices
     - images
     - reservation
-[]Seed the Initial tags
+[x]Seed the Initial tags
    -In migration table
    Mass Assigement 
       -ServiceProveider
