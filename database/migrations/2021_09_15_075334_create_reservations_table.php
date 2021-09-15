@@ -15,7 +15,19 @@ class CreateReservationsTable extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
+            $table->integer('price');
+            $table->tinyInteger('status')->default(1);
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
+
+            //Foreign Keys users and offices
+            $table->foreignId('user_id');
+            $table->foreignId('office_id');
+
+            $table->index(['user_id', 'status']);
+            $table->index(['office_id', 'status']);
+            $table->index(['office_id', 'status', 'start_date', 'end_date']);
         });
     }
 

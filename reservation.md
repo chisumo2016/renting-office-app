@@ -4,6 +4,7 @@
 Git Hub
 themsaid/ergodnc
 
+# Setup Migration ,Models , Factories
 Users
 Tags
 Offices
@@ -41,7 +42,7 @@ abobker autocomplete
 [ ] Include tags, Images and user
 [ ]Show count of previous reservations
 [ ]Paginate
-[ ]Sort by distance if lnng/lat provided. Otherwise, oldest first
+[ ]Sort by distance if lng/lat provided. Otherwise, oldest first
 
 ## Show Office endpoint
 []Show count of previous reservations
@@ -51,5 +52,6 @@ abobker autocomplete
 []Host must be authenticated & email verified
 []Cannot fill `approval_status`
 []Attach photos to offices endpoint
-   
-   
+
+
+​Can someone tell me how can I learn a topic like system design or database design? or point me to some free sources
