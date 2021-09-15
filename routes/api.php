@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+//Tags Endpoint
 Route::get('/tags',TagController::class);
+
+//office Endpoint
+Route::get('/offices',[OfficeController::class,'index']);
 

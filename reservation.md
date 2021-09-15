@@ -33,8 +33,8 @@ themsaid/ergodnc
     -Controller
     -Tests
 
-[]Offices
-    -List office
+[x] Offices
+    -List office 
     -Read Office
     -Create Office
 
@@ -45,7 +45,7 @@ abobker autocomplete
 []Filter the offices returned
 []Paginate the list offices endpoint
 []Show office endpoint
-[]Create office endpoingt
+[]Create office endpoint
 
 ## List Officess Endpoint
 []Show only approved and visible record
