@@ -28,7 +28,7 @@ themsaid/ergodnc
       -  php artisan make:resource TagResource
       -   php artisan make:resource ImageResource
 
-[] Tags
+[x] Tags
     -Routes
     -Controller
     -Tests
