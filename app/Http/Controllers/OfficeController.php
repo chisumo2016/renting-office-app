@@ -13,6 +13,8 @@ class OfficeController extends Controller
     {
 
         $offices = Office::query('id', 'DESC')//->orderBy('id','DESC')
+                    ->where('approval_status', Office::APPROVAL_APPROVED)
+                    ->where('hidden', false)
                     ->latest('id')
                     ->paginate(20);
 

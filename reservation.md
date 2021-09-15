@@ -70,7 +70,7 @@ themsaid/ergodnc
 
 ## List Offices Endpoint
 
-[ ] Show only approved and visible record
+[x] Show only approved and visible record
 
 [ ] Filter by hoists
 
