@@ -14,11 +14,13 @@ themsaid/ergodnc
     - reservation
 [x]Seed the Initial tags
    -In migration table
-   Mass Assigement 
-      -ServiceProveider
-[]Prepare Models
-[]Prepare Factories
-[]Prepare Resources
+   Mass Assigment 
+      -ServiceProvider
+[x]Prepare Models
+      -Relationship
+      -Casts
+[] Prepare Factories
+[] Prepare Resources
 [] Tags
     -Routes
     -Controller
