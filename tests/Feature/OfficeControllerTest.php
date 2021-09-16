@@ -117,7 +117,6 @@ class OfficeControllerTest extends TestCase
         //$response->dump();
 
         $response->assertOk();
-
         $this->assertIsArray($response->json('data')[0]['tags']);
         $this->assertCount(1, $response->json('data')[0]['tags']);
         $this->assertIsArray($response->json('data')[0]['images']);
@@ -126,11 +125,24 @@ class OfficeControllerTest extends TestCase
 
         //$response->dump();
 
+    }
 
+    /**
+     * @test
+     */
+    public  function itReturnsTheNumberOfActiveReservations()
+    {
+        $office = Office::factory()->create();
 
+        Reservation::factory()->for($office)->create(['status' => Reservation::STATUS_ACTIVE]);
+        Reservation::factory()->for($office)->create(['status' => Reservation::STATUS_CANCELLED]);
 
+        $response = $this->get('/api/offices');
 
+        $response->assertOk();
+        $this->assertEquals(1,$response->json('data')[0]['reservations_count']);
 
+        $response->dump();
     }
 
 
