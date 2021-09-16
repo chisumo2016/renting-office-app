@@ -80,11 +80,19 @@ themsaid/ergodnc
 
     ErrorException: Undefined array key "tags"
 
-[ ] Show count of previous reservations
+[ x] Show count of previous reservations
+
+        ErrorException: Undefined array key "reservations_count"
 
 [x ] Paginate
 
-[ ]Sort by distance if lng/lat provided. Otherwise, oldest first
+[x] Sort by distance if lng/lat provided. Otherwise, oldest first
+
+        Expected response status code [200] but received 500.
+
+        Failed asserting that 200 is identical to 500.
+
+        https://stackoverflow.com/questions/2234204/find-nearest-latitude-longitude-with-an-sql-query
 
 ## Show Office endpoint
 

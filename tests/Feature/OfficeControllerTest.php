@@ -117,6 +117,7 @@ class OfficeControllerTest extends TestCase
         //$response->dump();
 
         $response->assertOk();
+        //dd($response->json('data')[0]);
         $this->assertIsArray($response->json('data')[0]['tags']);
         $this->assertCount(1, $response->json('data')[0]['tags']);
         $this->assertIsArray($response->json('data')[0]['images']);
@@ -142,8 +143,42 @@ class OfficeControllerTest extends TestCase
         $response->assertOk();
         $this->assertEquals(1,$response->json('data')[0]['reservations_count']);
 
-        $response->dump();
+        //$response->dump();
     }
+
+    /**
+     * @test
+     */
+    public function itOrdersByDistanceWhenCoordinatesAreProvided()
+    {
+        $office1 = Office::factory()->create([ //far
+                'lat' => '39.74051727562952',
+                'lng' => '-8.770375324893696',
+                'title' => 'Leiria'
+            ]);
+
+        $office2 =Office::factory()->create([ //closer
+            'lat' => '39.07753883078113',
+            'lng' => '-9.281266331143293',
+            'title' => 'Torres Vedras'
+        ]);
+
+        $response = $this->get('/api/offices?lat=38.720661384644046&lng=-9.16044783453807');
+
+        $response->assertOk();
+        $this->assertEquals('Torres Vedras', $response->json('data')[0]['title']);
+        $this->assertEquals('Leiria', $response->json('data')[1]['title']);
+
+        $response = $this->get('/api/offices');
+
+        $response->assertOk();
+        $this->assertEquals('Leiria ',$response->json('data')[0]['title']);
+        $this->assertEquals('Torres Vedras',$response->json('data')[1]['title']);
+
+        //$response->dump();
+    }
+
+
 
 
 }
