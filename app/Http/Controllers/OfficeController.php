@@ -20,6 +20,7 @@ class OfficeController extends Controller
                      ->when(request('user_id'),
                          fn($builder) => $builder->whereRelation('reservations', 'user_id' , '=' , request('user_id')))
                     ->latest('id')
+                     ->with(['images', 'tags', 'user'])//Problem
                     ->paginate(20);
 
         return OfficeResource::collection(

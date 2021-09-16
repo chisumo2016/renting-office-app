@@ -76,7 +76,9 @@ themsaid/ergodnc
 
 [x] Filter by users
 
-[ ] Include tags, Images and user
+[x] Include tags, Images and user //problem
+
+    ErrorException: Undefined array key "tags"
 
 [ ] Show count of previous reservations
 
