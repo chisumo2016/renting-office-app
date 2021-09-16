@@ -96,9 +96,9 @@ themsaid/ergodnc
 
 ## Show Office endpoint
 
-[ ] Show count of previous reservations
+[x] Show count of previous reservations
 
-[ ] Include tags, Images and user
+[x] Include tags, Images and user
 
 ##Create office endpoint
 [ ] Host must be authenticated & email verified

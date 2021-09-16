@@ -178,6 +178,30 @@ class OfficeControllerTest extends TestCase
         //$response->dump();
     }
 
+    /**
+     * @test
+     */
+    public function  itShowsTheOffice()
+    {
+        $user = User::factory()->create();
+        $tag = Tag::factory()->create();
+        $office = Office::factory()->for($user)->create();
+
+        $office->tags()->attach($tag);
+        $office->images()->create(['path' => 'image.jpg']);
+
+        Reservation::factory()->for($office)->create(['status' => Reservation::STATUS_ACTIVE]);
+        Reservation::factory()->for($office)->create(['status' => Reservation::STATUS_CANCELLED]);
+
+        $response = $this->get('/api/offices/'.$office->id);
+
+        $response->assertOk()
+            ->assertJsonPath('data.reservations_count', 1)
+            ->assertJsonCount(1, 'data.tags')
+            ->assertJsonCount(1, 'data.images')
+            ->assertJsonPath('data.user.id', $user->id);
+    }
+
 
 
 
