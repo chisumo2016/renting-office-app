@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 class Office extends Model
 {
@@ -28,6 +28,10 @@ class Office extends Model
         'hidden' => 'bool',
     ];
 
+    protected $with = [
+        'tags'
+    ];
+
     public  function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -38,17 +42,17 @@ class Office extends Model
         return $this->hasMany(Reservation::class);
     }
 
-    public function images():MorphMany
+    public function images():morphMany
     {
         return $this->morphMany(Image::class,'resource');
     }
 
-    public  function tags() : BelongsToMany
+    public  function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class,'offices_tags');
     }
 
-    public  function scopeNearestTo(Builder $builder,$lat ,$lng)
+    public  function scopeNearestTo(Builder $builder, $lat , $lng)
     {
        return $builder
            ->select()

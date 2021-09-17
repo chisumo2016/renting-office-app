@@ -19,6 +19,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/tags',TagController::class);
 
 //office Endpoint
-Route::get('/offices',[OfficeController::class,'index']);
-Route::get('/offices/{offices}',[OfficeController::class,'show']);
+Route::get('offices',          [OfficeController::class, 'index']);
+Route::get('/offices/{offices}',[OfficeController::class, 'show']);
 
