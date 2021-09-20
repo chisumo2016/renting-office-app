@@ -78,6 +78,8 @@ themsaid/ergodnc
 
 [x] Switch to using Custom Polymorphic Types
 
+[x]"Ordered by distance but don't include the distance attribute
+
 [x] Include tags, Images and user //problem
 
     ErrorException: Undefined array key "tags"
@@ -101,6 +103,8 @@ themsaid/ergodnc
 [x] Show count of previous reservations
 
 [x] Include tags, Images and user
+
+[ x ] Configure the resources
 
 ##Create office endpoint
 [ ] Host must be authenticated & email verified

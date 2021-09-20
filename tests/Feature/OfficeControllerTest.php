@@ -21,6 +21,8 @@ class OfficeControllerTest extends TestCase
     {
         Office::factory(3)->create();
         $response = $this->get('/api/offices');
+
+        dd($response->json());
         //$response->dump();
        // $response->assertOk();
         $response->assertJsonCount(3,'data');
@@ -109,6 +111,8 @@ class OfficeControllerTest extends TestCase
         $office->images()->create(['path' => 'image.jpg']);
 
         $response = $this->get('/api/offices');
+
+        dd($response->json());
         $response->assertOk();
 
         //dd($response->json('data'));
