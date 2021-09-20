@@ -108,8 +108,6 @@ class OfficeControllerTest extends TestCase
         $office->tags()->attach($tag);
         $office->images()->create(['path' => 'image.jpg']);
 
-        dd($office->images);
-
         $response = $this->get('/api/offices');
         $response->assertOk();
 

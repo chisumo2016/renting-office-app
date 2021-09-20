@@ -76,6 +76,8 @@ themsaid/ergodnc
 
 [x] Filter by users
 
+[x] Switch to using Custom Polymorphic Types
+
 [x] Include tags, Images and user //problem
 
     ErrorException: Undefined array key "tags"
