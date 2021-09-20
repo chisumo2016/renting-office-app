@@ -11,6 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 
@@ -50,9 +51,13 @@ class OfficeController extends Controller
 
     public  function create(): JsonResource
     {
-      if (! auth()->user()->tokenCan('office.create')){
-          abort(Response::HTTP_FORBIDDEN);
-      }
+//      if (! auth()->user()->tokenCan('office.create')){
+//          abort(Response::HTTP_FORBIDDEN);
+//      }
+
+       abort_unless(auth()->user()->tokenCan('office.create'),
+          Response::HTTP_FORBIDDEN
+       );
 
         $attributes =validator(request()->all(),
             [
@@ -73,20 +78,24 @@ class OfficeController extends Controller
         //$attributes['user_id'] = auth()->id();
         $attributes['approval_status'] = Office::APPROVAL_PENDING;
 
-        //Create through relationship
-        $office= auth()->user()->offices()->create(
-            Arr::except($attributes,['tags'])
-        );
+        $office =DB::transaction(function () use ($attributes) {
+           //Create through relationship
+           $office= auth()->user()->offices()->create(
+               Arr::except($attributes,['tags'])
+           );
+           //assign the tags  sync/attach
+           $office->tags()->attach($attributes['tags']);
+           return $office;
+       });
 
-        //Create office through create
+        return OfficeResource::make(
+            $office->load(['images','tags','user'])
+        );
+    }
+}
+
+
+//Create office through create
 //        $office= Office::create(
 //            Arr::except($attributes,['tags'])
 //        );
-
-        //attach the tags
-
-        $office->tags()->sync($attributes['tags']);
-
-        return OfficeResource::make($office);
-    }
-}
