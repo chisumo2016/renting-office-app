@@ -22,7 +22,7 @@ class OfficeControllerTest extends TestCase
         Office::factory(3)->create();
         $response = $this->get('/api/offices');
 
-        dd($response->json());
+        //dd($response->json());
         //$response->dump();
        // $response->assertOk();
         $response->assertJsonCount(3,'data');
@@ -112,7 +112,7 @@ class OfficeControllerTest extends TestCase
 
         $response = $this->get('/api/offices');
 
-        dd($response->json());
+        //dd($response->json());
         $response->assertOk();
 
         //dd($response->json('data'));
@@ -197,5 +197,46 @@ class OfficeControllerTest extends TestCase
             ->assertJsonCount(1, 'data.tags')
             ->assertJsonCount(1, 'data.images')
             ->assertJsonPath('data.user.id', $user->id);
+    }
+
+    /**
+     * @test
+     */
+
+    public  function  itCreatesAnOffice()
+    {
+        $user   = User::factory()->createQuietly();
+        $tag    = Tag::factory()->createQuietly();
+        $tag2   = Tag::factory()->createQuietly();
+
+        $this->actingAs($user);
+
+        $response = $this->postJson('/api/offices/',
+            [
+               'title'          => 'Office in Arkansas',
+               'description'    =>  'Wooooooo',
+                'lat'           => '39.74051727562952',
+                'lng'           => '-8.770375324893696',
+                'address_line1' => 'address',
+                'price_per_day' => 1000,
+                'monthly_discount' => 5,
+                'tags'=>[
+                    $tag->id,
+                    $tag2->id
+                ]
+            ]);
+            //dd($response->json());
+
+          $response->assertCreated()
+                    ->assertJsonPath('data.title','Office in Arkansas')
+                    ->assertJsonPath('data.user_id',$user->id)
+                    ->assertJsonPath('data.approval_status',Office::APPROVAL_PENDING)
+                    ->assertJsonCount(2,'data.tags');
+
+          $this->assertDatabaseHas('offices',[
+              'title' =>'Office in Arkansas'
+          ]);
+
+           //dd($response->json());
     }
 }

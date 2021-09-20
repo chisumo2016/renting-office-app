@@ -107,7 +107,9 @@ themsaid/ergodnc
 [ x ] Configure the resources
 
 ##Create office endpoint
-[ ] Host must be authenticated & email verified
+[x] Host must be authenticated & email verified
+
+[ ] Token (if exists) must allow `office.create`
 
 [ ] Cannot fill `approval_status`
 

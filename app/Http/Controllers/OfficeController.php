@@ -7,6 +7,8 @@ use App\Models\Office;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Arr;
+use Illuminate\Validation\Rule;
 
 
 class OfficeController extends Controller
@@ -41,5 +43,43 @@ class OfficeController extends Controller
             ->load(['images', 'tags', 'user']);
 
        return OfficeResource::make($office);
+    }
+
+    public  function create(): JsonResource
+    {
+        $attributes =validator(request()->all(),
+            [
+                'title'             =>['required', 'string'],
+                'description'       =>['required', 'string'],
+                'lat'               =>['required', 'numeric'],
+                'lng'               =>['required', 'numeric'],
+                'address_line1'     =>['required', 'string'],
+                'hidden'            =>['bool'],
+                'price_per_day'     =>['required','integer','min:100'],
+                'monthly_discount'  =>['integer','min:0','max:90'],
+
+                'tags'      =>['array'],
+                'tags.*'    =>['integer', Rule::exists('tags','id')]
+            ]
+        )->validate();
+
+        //$attributes['user_id'] = auth()->id();
+        $attributes['approval_status'] = Office::APPROVAL_PENDING;
+
+        //Create through relationship
+        $office= auth()->user()->offices()->create(
+            Arr::except($attributes,['tags'])
+        );
+
+        //Create office through create
+//        $office= Office::create(
+//            Arr::except($attributes,['tags'])
+//        );
+
+        //attach the tags
+
+        $office->tags()->sync($attributes['tags']);
+
+        return OfficeResource::make($office);
     }
 }
