@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Resources\OfficeResource;
 use App\Models\Office;
 use App\Models\Reservation;
-use Illuminate\Http\Request;
+
 use Illuminate\Http\Resources\Json\JsonResource;
+
+use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
+
 use Illuminate\Validation\Rule;
 
 
@@ -47,6 +50,10 @@ class OfficeController extends Controller
 
     public  function create(): JsonResource
     {
+      if (! auth()->user()->tokenCan('office.create')){
+          abort(Response::HTTP_FORBIDDEN);
+      }
+
         $attributes =validator(request()->all(),
             [
                 'title'             =>['required', 'string'],

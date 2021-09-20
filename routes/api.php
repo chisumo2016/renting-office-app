@@ -21,7 +21,7 @@ Route::get('/tags',TagController::class);
 //office Endpoint
 Route::get('offices',          [OfficeController::class, 'index']);
 Route::get('/offices/{office}',[OfficeController::class, 'show']);
-Route::post('/offices',[OfficeController::class, 'create'])
+Route::post('/offices',        [OfficeController::class, 'create'])
     ->middleware(
         [
             'auth:sanctum',

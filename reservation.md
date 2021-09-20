@@ -106,15 +106,29 @@ themsaid/ergodnc
 
 [ x ] Configure the resources
 
-##Create office endpoint
+## Create office endpoint
 [x] Host must be authenticated & email verified
 
-[ ] Token (if exists) must allow `office.create`
+[x ] Token (if exists) must allow `office.create`
 
-[ ] Cannot fill `approval_status`
+[ ] Validation
+
+
+
+## Office Photos
 
 [ ] Attach photos to offices endpoint
 
+[ ] Allow choosing a photo to become the featured photo
+
+[ ] Deleting a photo
+    - Must have at least one photo if it's approved
+
+## Update Office Endpoint Photos
+
+[ ] Must be authenticated  & email verified
+
+[ ] Token (if exists) must allow `office.update`
 
 
 ​Can someone tell me how can I learn a topic like system design or database design? or point me to some free sources

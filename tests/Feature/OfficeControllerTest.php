@@ -211,7 +211,7 @@ class OfficeControllerTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->postJson('/api/offices/',
+        $response = $this->postJson('/api/offices',
             [
                'title'          => 'Office in Arkansas',
                'description'    =>  'Wooooooo',
@@ -238,5 +238,25 @@ class OfficeControllerTest extends TestCase
           ]);
 
            //dd($response->json());
+    }
+
+    /**
+     * @test
+     */
+
+    public  function  itDoesntAllowCreateingIfScopeIsNotProvided()
+    {
+        $user   = User::factory()->createQuietly();
+
+        $token = $user->createToken('test',[]);
+         //dd($token);
+        $response = $this->postJson('/api/offices', [], [
+            'Authorization' => 'Bearer '.$token->plainTextToken
+        ]);
+
+        $response->assertStatus(403);
+
+
+        //dd($response->json());
     }
 }
