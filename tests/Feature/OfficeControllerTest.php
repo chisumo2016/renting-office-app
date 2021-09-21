@@ -311,6 +311,30 @@ class OfficeControllerTest extends TestCase
         //dd($response->json());
 
         $response->assertStatus(403);
+    }
+
+    /**
+     * @test
+     */
+    public  function  itMarksTheOfficesAsPendingIfDirty()
+    {
+        $user           = User::factory()->create();
+        $office         = Office::factory()->for($user)->create();
+
+        $this->actingAs($user);
+
+        $response = $this->putJson('/api/offices/'.$office->id,[
+            'lat' =>40.74051727562910
+        ]);
+
+        //dd($response->json());
+
+        $response->assertOk();
+
+        $this->assertDatabaseHas('offices',[
+            'id'=> $office->id,
+            'approval_status'=> Office::APPROVAL_PENDING,
+        ]);
 
     }
 }

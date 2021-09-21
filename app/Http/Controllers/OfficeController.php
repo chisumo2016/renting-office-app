@@ -102,12 +102,15 @@ class OfficeController extends Controller
        //Validate attributes
         $attributes =(new OfficeValidator())->validate($office, request()->all());
 
+        $office->fill(Arr::except($attributes,['tags'])); //doesnt communicate with database
+
+        if ($office->isDirty(['lat', 'lng','price_per_day'])){
+            $office->fill(['approval_status' => Office::APPROVAL_PENDING]);
+        }
         //Update office inside a DB transaction
         DB::transaction(function () use ($office, $attributes) {
             //Update
-          $office->update(
-                Arr::except($attributes,['tags'])
-            );
+          $office->save();
 
           if (isset($attributes['tags'])){
               //assign the tags  sync
@@ -125,3 +128,7 @@ class OfficeController extends Controller
 //        $office= Office::create(
 //            Arr::except($attributes,['tags'])
 //        );
+
+//$office->update(
+//    Arr::except($attributes,['tags'])
+//);

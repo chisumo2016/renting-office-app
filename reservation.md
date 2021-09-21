@@ -140,7 +140,7 @@ themsaid/ergodnc
 
 [ x ] Validation
 
-[] Mark as pending when critical attributed are updated and notify admin
+[X] Mark as pending when critical attributed are updated and notify admin
 
 ## Create Office Endpoint
  [] Notify admin on new Office
