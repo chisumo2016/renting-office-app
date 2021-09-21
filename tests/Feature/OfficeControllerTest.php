@@ -359,7 +359,7 @@ class OfficeControllerTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->delete('/api/offices/'.$office->id);
+        $response = $this->deleteJson('/api/offices/'.$office->id);
 
         //dd($response->json());
 
@@ -378,11 +378,13 @@ class OfficeControllerTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->delete('/api/offices/'.$office->id);
+        $response = $this->deleteJson('/api/offices/'.$office->id);
 
         //dd($response->json());
 
-        $response->assertStatus(302);
+        //422vendor/symfony/http-foundation/Response.php
+        //$response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertUnprocessable();
         //dd($office->fresh());
         $this->assertDatabaseHas('offices',[
             'id'=> $office->id,
