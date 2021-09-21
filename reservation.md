@@ -155,7 +155,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [ x ] Can only delete their own offices
 
-[ ] Cannot delete an office that has a reservation
+[x] Cannot delete an office that has a reservation
 
 
 ## List Reservations Endpoint 
