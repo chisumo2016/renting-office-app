@@ -69,7 +69,7 @@ class OfficeController extends Controller
 
         //$attributes['user_id'] = auth()->id();
         $attributes['approval_status'] = Office::APPROVAL_PENDING;
-        $attributes['user_id']         = auth()->id;
+        $attributes['user_id']         = auth()->id();
 
         //Store office inside a DB transaction
         $office =DB::transaction(function () use ($office,$attributes) {
@@ -96,6 +96,9 @@ class OfficeController extends Controller
         abort_unless(auth()->user()->tokenCan('office.update'),
             Response::HTTP_FORBIDDEN
         );
+
+        $this->authorize('update',$office);
+
        //Validate attributes
         $attributes =(new OfficeValidator())->validate($office, request()->all());
 

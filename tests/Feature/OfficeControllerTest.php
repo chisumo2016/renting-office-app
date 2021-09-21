@@ -204,34 +204,25 @@ class OfficeControllerTest extends TestCase
      */
     public  function  itCreatesAnOffice()
     {
-        $user   = User::factory()->createQuietly();
-        $tags    = Tag::factory(2)->createQuietly();
+        $user   = User::factory()->create();
+        $tags    = Tag::factory(2)->create();
         //$tag2   = Tag::factory()->createQuietly();
 
         $this->actingAs($user);
 
-        $response = $this->postJson('/api/offices',
-            [
-               'title'          => 'Office in Arkansas',
-               'description'    =>  'Wooooooo',
-                'lat'           => '39.74051727562952',
-                'lng'           => '-8.770375324893696',
-                'address_line1' => 'address',
-                'price_per_day' => 1000,
-                'monthly_discount' => 5,
-                'tags' => $tags->pluck('id')->toArray()
-            ]);
+        $response = $this->postJson('/api/offices',Office::factory()->raw([
+            'tags' => $tags->pluck('id')->toArray()
+        ]));
             //dd($response->json());
 
           $response->assertCreated()
-              ->assertJsonPath('data.title', 'Office in Arkansas')
               ->assertJsonPath('data.approval_status', Office::APPROVAL_PENDING)
-              ->assertJsonPath('data.reservations_count', 0)
+              //->assertJsonPath('data.reservations_count', 0)
               ->assertJsonPath('data.user.id', $user->id)
               ->assertJsonCount(2, 'data.tags');
 
           $this->assertDatabaseHas('offices',[
-              'title' =>'Office in Arkansas'
+              'id' => $response->json('data.id')
           ]);
 
            //dd($response->json());
@@ -263,6 +254,7 @@ class OfficeControllerTest extends TestCase
     {
         $user   = User::factory()->create();
         $tags    = Tag::factory(2)->create();
+        $anotherTag    = Tag::factory()->create();
         $office = Office::factory()->for($user)->create();
 
         $office->tags()->attach($tags);
@@ -270,11 +262,50 @@ class OfficeControllerTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->putJson('/api/offices/'.$office->id,[
-            'title' =>'Amazing Office'
+            'title' =>'Amazing Office',
+            'tags' =>[$tags[0]->id, $anotherTag->id]  //sync method will take off that
+
         ]);
         //dd($response->json());
 
         $response->assertOk()
+            ->assertJsonCount(2, 'data.tags')
+            ->assertJsonPath('data.tags.0.id', $tags[0]->id)
+            ->assertJsonPath('data.tags.1.id', $anotherTag->id)
             ->assertJsonPath('data.title','Amazing Office');
     }
+
+    /**
+     * @test
+     */
+    public  function  ItDoesntUpdateOfficeThatDoesntBelongToUser()
+    {
+        $user           = User::factory()->create();
+        $anotherUser    = User::factory()->create();
+        $office         = Office::factory()->for($anotherUser)->create();
+
+        $this->actingAs($user);
+
+        $response = $this->putJson('/api/offices/'.$office->id,[
+            'title' =>'Amazing Office'
+        ]);
+
+        //dd($response->json());
+
+        $response->assertStatus(403);
+
+    }
 }
+
+//
+//$response = $this->postJson('/api/offices',
+//    [
+//        'title'          => 'Office in Arkansas',
+//        'description'    =>  'Wooooooo',
+//        'lat'           => '39.74051727562952',
+//        'lng'           => '-8.770375324893696',
+//        'address_line1' => 'address',
+//        'price_per_day' => 1000,
+//        'monthly_discount' => 5,
+//        'tags' => $tags->pluck('id')->toArray()
+//    ]);

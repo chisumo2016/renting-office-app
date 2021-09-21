@@ -130,15 +130,15 @@ themsaid/ergodnc
 ## Update Office Endpoint 
 [ x ] Create an endpoint in the api file 
 
-[ ] Must be authenticated  & email verified
+[ x] Must be authenticated  & email verified
 
    NB:abstract the validation (create and update)
 
-[ ] Token (if exists) must allow `office.update`
+[ x] Token (if exists) must allow `office.update`
 
-[ ] Can only update their own offices
+[ ] Can only update their own offices  - use Policy 
 
-[ ] Validation
+[ x ] Validation
 
 [] Mark as pending when critical attributed are updated and notify admin
 
