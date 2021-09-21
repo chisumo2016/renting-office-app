@@ -8,6 +8,8 @@ use App\Models\Reservation;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class OfficeControllerTest extends TestCase
@@ -232,6 +234,22 @@ class OfficeControllerTest extends TestCase
      * @test
      */
 
+    public  function  itAllowCreatingIfScopeProvided()
+    {
+        $user   = User::factory()->create();
+
+        Sanctum::actingAs($user,['office.create']);
+
+        $response = $this->postJson('/api/offices');
+
+        $this->assertNotEquals(Response::HTTP_FORBIDDEN,$response->status() );
+        //dd($response->json());
+    }
+
+    /**
+     * @test
+     */
+
     public  function  itDoesntAllowCreateingIfScopeIsNotProvided()
     {
         $user   = User::factory()->createQuietly();
@@ -242,8 +260,8 @@ class OfficeControllerTest extends TestCase
             'Authorization' => 'Bearer '.$token->plainTextToken
         ]);
 
-        $response->assertStatus(403);
-        //$this->assertNotEquals(403,$response->status() );
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
+        //$this->assertNotEquals(Response::HTTP_FORBIDDEN,$response->status() );
         //dd($response->json());
     }
 
@@ -254,7 +272,7 @@ class OfficeControllerTest extends TestCase
     {
         $user   = User::factory()->create();
         $tags    = Tag::factory(2)->create();
-        $anotherTag    = Tag::factory()->create();
+        $anotherTag    = Tag::factory()->create();  //This tag isnt attached /created  to this office
         $office = Office::factory()->for($user)->create();
 
         $office->tags()->attach($tags);

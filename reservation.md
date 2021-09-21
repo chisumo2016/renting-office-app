@@ -136,7 +136,7 @@ themsaid/ergodnc
 
 [ x] Token (if exists) must allow `office.update`
 
-[ ] Can only update their own offices  - use Policy 
+[ x ] Can only update their own offices  - use Policy 
 
 [ x ] Validation
 
