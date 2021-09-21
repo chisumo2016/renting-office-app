@@ -124,18 +124,22 @@ themsaid/ergodnc
     - Must have at least one photo if it's approved
 
 #TODO
- [] Office approval status should be pending pr approved only .. no rejected  (remove rejected in office model, officeFactory)
- [] Store Office inside a database transaction
+ [x] Office approval status should be pending pr approved only .. no rejected  (remove rejected in office model, officeFactory)
+ [x] Store Office inside a database transaction(OfficeController)
 
 ## Update Office Endpoint 
+[ x ] Create an endpoint in the api file 
 
 [ ] Must be authenticated  & email verified
+
+   NB:abstract the validation (create and update)
 
 [ ] Token (if exists) must allow `office.update`
 
 [ ] Can only update their own offices
 
 [ ] Validation
+
 [] Mark as pending when critical attributed are updated and notify admin
 
 ## Create Office Endpoint

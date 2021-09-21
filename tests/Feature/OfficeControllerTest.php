@@ -202,12 +202,11 @@ class OfficeControllerTest extends TestCase
     /**
      * @test
      */
-
     public  function  itCreatesAnOffice()
     {
         $user   = User::factory()->createQuietly();
-        $tag    = Tag::factory()->createQuietly();
-        $tag2   = Tag::factory()->createQuietly();
+        $tags    = Tag::factory(2)->createQuietly();
+        //$tag2   = Tag::factory()->createQuietly();
 
         $this->actingAs($user);
 
@@ -220,18 +219,16 @@ class OfficeControllerTest extends TestCase
                 'address_line1' => 'address',
                 'price_per_day' => 1000,
                 'monthly_discount' => 5,
-                'tags'=>[
-                    $tag->id,
-                    $tag2->id
-                ]
+                'tags' => $tags->pluck('id')->toArray()
             ]);
             //dd($response->json());
 
           $response->assertCreated()
-                    ->assertJsonPath('data.title','Office in Arkansas')
-                    ->assertJsonPath('data.user_id',$user->id)
-                    ->assertJsonPath('data.approval_status',Office::APPROVAL_PENDING)
-                    ->assertJsonCount(2,'data.tags');
+              ->assertJsonPath('data.title', 'Office in Arkansas')
+              ->assertJsonPath('data.approval_status', Office::APPROVAL_PENDING)
+              ->assertJsonPath('data.reservations_count', 0)
+              ->assertJsonPath('data.user.id', $user->id)
+              ->assertJsonCount(2, 'data.tags');
 
           $this->assertDatabaseHas('offices',[
               'title' =>'Office in Arkansas'
@@ -255,8 +252,29 @@ class OfficeControllerTest extends TestCase
         ]);
 
         $response->assertStatus(403);
-
-
+        //$this->assertNotEquals(403,$response->status() );
         //dd($response->json());
+    }
+
+    /**
+     * @test
+     */
+    public  function  itUpdateAnOffice()
+    {
+        $user   = User::factory()->create();
+        $tags    = Tag::factory(2)->create();
+        $office = Office::factory()->for($user)->create();
+
+        $office->tags()->attach($tags);
+
+        $this->actingAs($user);
+
+        $response = $this->putJson('/api/offices/'.$office->id,[
+            'title' =>'Amazing Office'
+        ]);
+        //dd($response->json());
+
+        $response->assertOk()
+            ->assertJsonPath('data.title','Amazing Office');
     }
 }

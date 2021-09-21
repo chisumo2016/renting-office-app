@@ -29,3 +29,11 @@ Route::post('/offices',        [OfficeController::class, 'create'])
         ]
     );
 
+Route::put('/offices/{office}',        [OfficeController::class, 'update'])
+    ->middleware(
+        [
+            'auth:sanctum',
+            'verified'
+        ]
+    );
+
