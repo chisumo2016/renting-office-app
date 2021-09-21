@@ -142,13 +142,14 @@ themsaid/ergodnc
 
 [X] Mark as pending when critical attributed are updated and notify admin(create notification classphp artisan make:notification OfficePendingApproval
 )
+NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 ## Create Office Endpoint
- [] Notify admin on new Office
+ [x] Notify admin on new Office
 
 ## Delete Office Endpoint
 
-[ ] Must be authenticated  & email verified
+[ x ] Must be authenticated  & email verified
 
 [ ] Token (if exists) must allow `office.delete`
 

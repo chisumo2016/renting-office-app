@@ -126,6 +126,16 @@ class OfficeController extends Controller
             $office->load(['images', 'tags', 'user'])
         );
     }
+
+
+    public function  delete()
+    {
+        abort_unless(auth()->user()->tokenCan('office.update'),
+            Response::HTTP_FORBIDDEN
+        );
+
+        $this->authorize('delete',$office);
+    }
 }
 
 

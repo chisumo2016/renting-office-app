@@ -348,6 +348,7 @@ class OfficeControllerTest extends TestCase
         Notification::assertSentTo($admin,OfficePendingApproval::class );
 
     }
+
 }
 
 //
