@@ -36,7 +36,7 @@ Route::put('/offices/{office}',        [OfficeController::class, 'update'])
             'verified'
         ]
     );
-Route::put('/offices/{office}',        [OfficeController::class, 'delete'])
+Route::delete('/offices/{office}',        [OfficeController::class, 'delete'])
     ->middleware(
         [
             'auth:sanctum',

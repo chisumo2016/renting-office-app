@@ -349,6 +349,47 @@ class OfficeControllerTest extends TestCase
 
     }
 
+    /**
+     * @test
+     */
+    public  function  itCanDeleteOffices()
+    {
+        $user           = User::factory()->create();
+        $office         = Office::factory()->for($user)->create();
+
+        $this->actingAs($user);
+
+        $response = $this->delete('/api/offices/'.$office->id);
+
+        //dd($response->json());
+
+        $response->assertOk();
+        $this->assertSoftDeleted($office);
+    }
+
+    /**
+     * @test
+     */
+    public  function  itCannotDeleteOfficeThatHasReservations()
+    {
+        $user           = User::factory()->create();
+        $office         = Office::factory()->for($user)->create();
+        Reservation::factory(3)->for($office)->create();
+
+        $this->actingAs($user);
+
+        $response = $this->delete('/api/offices/'.$office->id);
+
+        //dd($response->json());
+
+        $response->assertStatus(302);
+        //dd($office->fresh());
+        $this->assertDatabaseHas('offices',[
+            'id'=> $office->id,
+            'deleted_at'=>null
+        ]);
+    }
+
 }
 
 //
