@@ -135,6 +135,10 @@ class OfficeController extends Controller
         );
 
         $this->authorize('delete',$office);
+
+        $office->delete();
+
+
     }
 }
 

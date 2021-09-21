@@ -151,9 +151,9 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [ x ] Must be authenticated  & email verified
 
-[ ] Token (if exists) must allow `office.delete`
+[ x ] Token (if exists) must allow `office.delete`
 
-[ ] Can only delete their own offices
+[ x ] Can only delete their own offices
 
 [ ] Cannot delete an office that has a reservation
 
