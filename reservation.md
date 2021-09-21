@@ -140,7 +140,8 @@ themsaid/ergodnc
 
 [ x ] Validation
 
-[X] Mark as pending when critical attributed are updated and notify admin
+[X] Mark as pending when critical attributed are updated and notify admin(create notification classphp artisan make:notification OfficePendingApproval
+)
 
 ## Create Office Endpoint
  [] Notify admin on new Office

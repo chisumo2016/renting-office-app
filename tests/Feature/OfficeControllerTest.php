@@ -7,8 +7,10 @@ use App\Models\Office;
 use App\Models\Reservation;
 use App\Models\Tag;
 use App\Models\User;
+use App\Notifications\OfficePendingApproval;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -206,6 +208,9 @@ class OfficeControllerTest extends TestCase
      */
     public  function  itCreatesAnOffice()
     {
+        Notification::fake();
+        $admin = User::factory()->create(['name'=>'Bernard']);
+
         $user   = User::factory()->create();
         $tags    = Tag::factory(2)->create();
         //$tag2   = Tag::factory()->createQuietly();
@@ -226,6 +231,8 @@ class OfficeControllerTest extends TestCase
           $this->assertDatabaseHas('offices',[
               'id' => $response->json('data.id')
           ]);
+
+        Notification::assertSentTo($admin,OfficePendingApproval::class );
 
            //dd($response->json());
     }
@@ -318,6 +325,9 @@ class OfficeControllerTest extends TestCase
      */
     public  function  itMarksTheOfficesAsPendingIfDirty()
     {
+        $admin = User::factory()->create(['name'=>'Bernard']);
+        Notification::fake();
+
         $user           = User::factory()->create();
         $office         = Office::factory()->for($user)->create();
 
@@ -335,6 +345,7 @@ class OfficeControllerTest extends TestCase
             'id'=> $office->id,
             'approval_status'=> Office::APPROVAL_PENDING,
         ]);
+        Notification::assertSentTo($admin,OfficePendingApproval::class );
 
     }
 }

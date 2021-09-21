@@ -6,13 +6,16 @@ use App\Http\Resources\OfficeResource;
 use App\Models\Office;
 use App\Models\Reservation;
 
+use App\Models\User;
 use App\Models\Validators\OfficeValidator;
+use App\Notifications\OfficePendingApproval;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 
 
@@ -61,11 +64,7 @@ class OfficeController extends Controller
        );
 
         //Validate attributes
-        $attributes =(new OfficeValidator())->validate(
-
-            $office = new Office(),
-            request()->all()
-        );
+        $attributes =(new OfficeValidator())->validate($office = new Office(), request()->all());
 
         //$attributes['user_id'] = auth()->id();
         $attributes['approval_status'] = Office::APPROVAL_PENDING;
@@ -86,6 +85,8 @@ class OfficeController extends Controller
                 return $office;
        });
 
+        Notification::send(User::firstWhere('name','Bernard'), new OfficePendingApproval($office));
+
         return OfficeResource::make(
             $office->load(['images','tags','user'])
         );
@@ -104,7 +105,7 @@ class OfficeController extends Controller
 
         $office->fill(Arr::except($attributes,['tags'])); //doesnt communicate with database
 
-        if ($office->isDirty(['lat', 'lng','price_per_day'])){
+        if ($requireReview = $office->isDirty(['lat', 'lng','price_per_day'])){
             $office->fill(['approval_status' => Office::APPROVAL_PENDING]);
         }
         //Update office inside a DB transaction
@@ -117,6 +118,10 @@ class OfficeController extends Controller
               $office->tags()->sync($attributes['tags']);
           }
         });
+
+        if ($requireReview){
+            Notification::send(User::firstWhere('name','Bernard'), new OfficePendingApproval($office));
+        }
         return OfficeResource::make(
             $office->load(['images', 'tags', 'user'])
         );
