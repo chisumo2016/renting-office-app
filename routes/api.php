@@ -43,3 +43,11 @@ Route::delete('/offices/{office}',        [OfficeController::class, 'delete'])
             'verified'
         ]
     );
+
+Route::post('/offices/{office}/images',        [OfficeController::class, 'store'])
+    ->middleware(
+        [
+            'auth:sanctum',
+            'verified'
+        ]
+    );

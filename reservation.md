@@ -114,14 +114,6 @@ themsaid/ergodnc
 
 [x] Validation
 
-## Office Photos
-
-[ ] Attach photos to offices endpoint
-
-[ ] Allow choosing a photo to become the featured photo
-
-[ ] Deleting a photo
-    - Must have at least one photo if it's approved
 
 #TODO
  [x] Office approval status should be pending pr approved only .. no rejected  (remove rejected in office model, officeFactory)
@@ -162,10 +154,26 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [x]Show hidden and unapproved office when filtering by `user_id` and the auth matches the user so hosts can see all their listings
 
+## Office Photos
+
+[ ] Attach photos to offices endpoint
+
+[ ] Allow choosing a photo to become the featured photo
+
+[ ] Deleting a photo
+
+- Must have at least one photo if it's approved
+
+#TODO
+[x] Delete all images when deleting an office
+[ ] Use the default disk to store images so it's easier to switch tp different drivers in production
+[ ] Switch to Sunctum guard 
+[] use keyed implicit binding in the office image routes so laravel scopes to the office that image belongs to [tweet]
+  
 ## List Reservations Endpoint 
 
 [ ] Must be authenticated  & email verified
-
+       
 [ ] Token (if exists) must allow `reservations.show`
 
 [ ] Can only list their own reservations or reservations on their officess
