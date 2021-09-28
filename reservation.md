@@ -157,6 +157,10 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [x] Cannot delete an office that has a reservation
 
+#TODO
+[x] Identify who an admin is by adding an `is_admin` attribute to the users table
+
+[x]Show hidden and unapproved office when filtering by `user_id` and the auth matches the user so hosts can see all their listings
 
 ## List Reservations Endpoint 
 

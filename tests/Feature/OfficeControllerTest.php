@@ -48,9 +48,32 @@ class OfficeControllerTest extends TestCase
         Office::factory(3)->create();
 
         Office::factory()->create(['hidden' => true]);
+        Office::factory()->create(['hidden' => true]);
         Office::factory()->create(['approval_status'=> Office::APPROVAL_PENDING]);
 
         $response = $this->get('/api/offices');
+
+        $response->assertOk();
+        $response->assertJsonCount(3,'data');
+    }
+
+    /**
+     * @test
+     */
+    public function itListsOfficesIncludingHiddenAndUnApprovedIfFilteringForTheCurrentLoggedInUser()
+    {
+        $user = User::factory()->create();
+
+        Office::factory(3)->for($user)->create();
+
+        //Office::factory()->create(['hidden' => true]);
+        Office::factory()->hidden()->create();
+        Office::factory()->pending()->create();
+       //Office::factory()->create(['approval_status'=> Office::APPROVAL_PENDING]);
+
+        $this->actingAs($user);
+
+        $response = $this->get('/api/offices?user_id' . $user->id);
 
         $response->assertOk();
         $response->assertJsonCount(3,'data');
@@ -209,7 +232,8 @@ class OfficeControllerTest extends TestCase
     public  function  itCreatesAnOffice()
     {
         Notification::fake();
-        $admin = User::factory()->create(['name'=>'Bernard']);
+
+        $admin = User::factory()->create(['is_admin'=> true]);
 
         $user   = User::factory()->create();
         $tags    = Tag::factory(2)->create();
@@ -325,7 +349,8 @@ class OfficeControllerTest extends TestCase
      */
     public  function  itMarksTheOfficesAsPendingIfDirty()
     {
-        $admin = User::factory()->create(['name'=>'Bernard']);
+        //$admin = User::factory()->create(['name'=>'Bernard']);
+        $admin = User::factory()->create(['is_admin'=> true]);
         Notification::fake();
 
         $user           = User::factory()->create();
