@@ -156,7 +156,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 ## Office Photos
 
-[ ] Attach photos to offices endpoint
+[x] Attach photos to offices endpoint
 
 [ ] Allow choosing a photo to become the featured photo
 

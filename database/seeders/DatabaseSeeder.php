@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Office;
 use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
@@ -15,5 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+       //$office =  Office::factory()->create();
+       //dd($office->id);
     }
 }
