@@ -20,12 +20,13 @@ class Office extends Model
     //const  APPROVAL_REJECTED = 3;
 
     protected $casts = [
-        'lat'   => 'decimal:8',
-        'lng'   => 'decimal:8',
+        'lat'               => 'decimal:8',
+        'lng'               => 'decimal:8',
         'approval_status'   =>  'integer',
         'price_per_day'     =>  'integer',
         'monthly_discount'  =>  'integer',
-        'hidden' => 'bool',
+        'hidden'            => 'bool',
+
     ];
 
     protected $with = [
@@ -50,6 +51,10 @@ class Office extends Model
     public  function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class,'offices_tags');
+    }
+    public  function featuredImage(): BelongsTo
+    {
+         return $this->belongsTo(Image::class,'featured_image_id');
     }
 
     public  function scopeNearestTo(Builder $builder, $lat , $lng)

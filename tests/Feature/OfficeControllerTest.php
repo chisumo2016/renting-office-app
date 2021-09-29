@@ -347,6 +347,53 @@ class OfficeControllerTest extends TestCase
     /**
      * @test
      */
+    public  function  itUpdateTheFeaturedImageOfAnOffice()
+    {
+        $user   = User::factory()->create();
+        $office = Office::factory()->for($user)->create();
+
+        $image = $office->images()->create([
+            'path' => 'image.jpg'
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->putJson('/api/offices/'.$office->id,[
+            'featured_image_id' => $image->id,
+        ]);
+        //dd($response->json());
+
+        $response->assertOk()
+                ->assertJsonPath('data.featured_image_id',$image->id);
+    }
+
+    /**
+    * @test
+    */
+    public  function  itDoesntUpdateFeaturedImmageThatBelongsToAnotherOffice()
+    {
+        $user   = User::factory()->create();
+        $office = Office::factory()->for($user)->create();
+        $office2 = Office::factory()->for($user)->create();
+
+        $image = $office2->images()->create([
+            'path' => 'image.jpg'
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->putJson('/api/offices/'.$office->id,[
+            'featured_image_id' => $image->id,
+        ]);
+        //dd($response->json());
+
+        $response->assertUnprocessable()->assertInvalid('featured_image_id');
+
+    }
+
+    /**
+     * @test
+     */
     public  function  itMarksTheOfficesAsPendingIfDirty()
     {
         //$admin = User::factory()->create(['name'=>'Bernard']);

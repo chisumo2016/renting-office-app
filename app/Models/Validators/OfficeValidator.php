@@ -20,6 +20,10 @@ class OfficeValidator
                 'price_per_day'     =>[Rule::when($office->exists, 'sometimes'),'required','integer','min:100'],
                 'monthly_discount'  =>['integer','min:0','max:90'],
 
+                'featured_image_id' =>[Rule::exists('images', 'id')
+                                            ->where('resource_type','office')
+                                            ->where('resource_id', $office->id)],
+
                 //Relationship attributes
                 'tags'      =>['array'],
                 'tags.*'    =>['integer', Rule::exists('tags','id')]

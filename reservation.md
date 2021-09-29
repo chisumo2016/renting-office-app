@@ -159,10 +159,15 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 [x] Attach photos to offices endpoint
 
 [ ] Allow choosing a photo to become the featured photo
+      we want the user to be able to select  an image/photo belongs to an office,Office has many photos and we want
+      the user to select the specific photo , and this photo will be  allowed to be promoted as featured photo
+      will be displayed in the UI , list the office resources in the front end : example flags or score of current stamps
 
-[ ] Deleting a photo
+   -featured_image_id field in offices
+    -Add the relationship in office model
+[ ] Deleting a photo - Must have at least one photo if it's approved
 
-- Must have at least one photo if it's approved
+
 
 #TODO
 [x] Delete all images when deleting an office
