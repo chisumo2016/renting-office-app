@@ -37,6 +37,89 @@ class OfficeImageControllerTest extends TestCase
             $response->json('data.path')
         );
     }
+
+    /**
+     * @test
+     */
+    public function itDeletesAnImage()
+    {
+        Storage::disk('public')->put('/office_image.jpg','empty'); //fake file
+        Storage::fake('public');
+
+        UploadedFile::fake()->image('office_image.jpg');
+
+        $user= User::factory()->create();
+        $office = Office::factory()->for($user)->create();
+
+        $office->images()->create([
+            'path' => 'image.jpg'
+        ]);
+
+        $image =$office->images()->create([
+            'path' => 'office_image.jpg'
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->deleteJson("/api/offices/{$office->id}/images/{$image->id}");
+
+        $response->assertOk();
+
+        $this->assertModelMissing($image);
+
+        Storage::disk('public')->assertMissing('office_image.jpg');
+
+
+
+    }
+
+    /**
+     * @test
+     */
+    public function itDoesntDeleteTheOnlyImage()
+    {
+        $user= User::factory()->create();
+        $office = Office::factory()->for($user)->create();
+
+        $image =$office->images()->create([
+            'path' => 'office_image.jpg'
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->deleteJson("/api/offices/{$office->id}/images/{$image->id}");
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['image'=> 'Cannot delete the only image']);
+
+    }
+
+    /**
+     * @test
+     */
+    public function itDoesntDeleteTheFeaturedImage()
+    {
+        $user= User::factory()->create();
+        $office = Office::factory()->for($user)->create();
+
+        $office->images()->create([
+            'path' => 'image.jpg'
+        ]);
+
+        $image =$office->images()->create([
+            'path' => 'office_image.jpg'
+        ]);
+
+        $office->update(['featured_image_id' => $image->id]);
+
+        $this->actingAs($user);
+
+        $response = $this->deleteJson("/api/offices/{$office->id}/images/{$image->id}");
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['image'=> 'Cannot delete the featured image']);
+
+    }
 }
 
 //'/api/offices/'.$office->id.'/images'
