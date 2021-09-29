@@ -16,6 +16,7 @@ use Illuminate\Support\Arr;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
@@ -150,6 +151,14 @@ class OfficeController extends Controller
             $office->reservations()->where('status', Reservation::STATUS_ACTIVE)->exists(),
             ValidationException::withMessages(['office'=>'Cannot delete this Office'])
         );
+
+        //Delete record from Storage
+        $office->images()->each(function ($image) {
+            Storage::disk('public')->delete($image->path);
+            $image->delete();
+        });
+
+        //Delete record from database
         $office->delete();
 
 

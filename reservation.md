@@ -169,10 +169,10 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 
 
-#TODO
+#TODO Housing keeping
 [x] Delete all images when deleting an office
-[ ] Use the default disk to store images so it's easier to switch tp different drivers in production
-[ ] Switch to Sunctum guard 
+[ ] Use the default disk to store public images so it's easier to switch tp different drivers in production
+[ ] Switch to using Sanctum guard by default
 [] use keyed implicit binding in the office image routes so laravel scopes to the office that image belongs to [tweet]
   
 ## List Reservations Endpoint 
