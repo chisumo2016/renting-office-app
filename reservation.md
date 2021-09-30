@@ -181,7 +181,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [x ] Token (if exists) must allow `reservations.show`
 
-[ ] Can only list their own reservations or reservations on their officess
+[ x] Can only list their own reservations or reservations on their offices
 
 [ ] Allow filtering by office_id  only for authenticated host
 
