@@ -27,6 +27,7 @@ class OfficeImageController extends Controller
 
         //Store the file
        $path = request()->file('image')->storePublicly('/', ['disk'=>'public']);
+       //$path = request()->file('image');
 
        //create an image belong to this office or attach to office
        $image = $office->images()->create([
@@ -44,10 +45,6 @@ class OfficeImageController extends Controller
 
        $this->authorize('update',$office);
 
-       throw_if($image->resource_type != 'office' || $image->resource_id !=  $office->id,
-           ValidationException::withMessages(['image'=> 'Cannot delete this image'])
-       );
-
        throw_if($office->images()->count() == 1,
            ValidationException::withMessages(['image'=> 'Cannot delete the only image'])
        );
@@ -56,7 +53,8 @@ class OfficeImageController extends Controller
            ValidationException::withMessages(['image'=> 'Cannot delete the featured image'])
        );
 
-       Storage::disk('public')->delete($image->path);
+      Storage::disk('public')->delete($image->path);
+       //Storage::delete($image->path);
        $image->delete();
 
        return response()->json();

@@ -27,8 +27,6 @@ class OfficeController extends Controller
     {
 
         $offices = Office::query()
-//            ->where('approval_status', Office::APPROVAL_APPROVED)
-//            ->where('hidden', false)
             ->when(request('user_id') && auth()->user() && request('user_id') == auth()->id(),
                   fn($builder) => $builder,//return all the results
                   fn($builder) => $builder->where('approval_status', Office::APPROVAL_APPROVED)->where('hidden', false)
@@ -155,13 +153,12 @@ class OfficeController extends Controller
         //Delete record from Storage
         $office->images()->each(function ($image) {
             Storage::disk('public')->delete($image->path);
+            //Storage::delete($image->path);
             $image->delete();
         });
 
         //Delete record from database
         $office->delete();
-
-
     }
 }
 
@@ -174,3 +171,6 @@ class OfficeController extends Controller
 //$office->update(
 //    Arr::except($attributes,['tags'])
 //);
+
+//            ->where('approval_status', Office::APPROVAL_APPROVED) ->guard('sanctum')
+//            ->where('hidden', false)
