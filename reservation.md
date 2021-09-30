@@ -177,9 +177,9 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
   
 ## List Reservations Endpoint 
 
-[ ] Must be authenticated  & email verified (User Must )
-       -
-[ ] Token (if exists) must allow `reservations.show`
+[x ] Must be authenticated  & email verified (User Must )
+
+[x ] Token (if exists) must allow `reservations.show`
 
 [ ] Can only list their own reservations or reservations on their officess
 
