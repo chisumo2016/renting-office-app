@@ -191,7 +191,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [x] Allow filtering by date range
 
-[ ] Allow filtering by status
+[x ] Allow filtering by status
 
 [] Paginate
 

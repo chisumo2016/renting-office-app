@@ -105,7 +105,29 @@ class UserReservationControllerTest extends TestCase
                                 ->pluck('id')->toArray());
     }
 
+    /**
+     * @test
+     */
+    public function itFiltersResultByStatus()
+    {
 
+        $user = User::factory()->create();
+        $reservation = Reservation::factory()->for($user)->create([
+            'status' => Reservation::STATUS_ACTIVE
+        ]);
+        $reservation2 = Reservation::factory()->for($user)->cancelled()->create();
+
+        $this->actingAs($user);
+
+        $response = $this->getJson('/api/reservations?'.http_build_query([
+                'status' => Reservation::STATUS_ACTIVE,
+            ]));
+
+        $response
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.id', $reservation->id);
+
+    }
 
 }
 
