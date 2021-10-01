@@ -1,15 +1,15 @@
 which comme
-comme(){
-   git add -all
-   if (($# > 1))
-   then
-        params =''
-        for i in $*
-        do
-             params=" $params $i"
-        done
-        git commit -m "$params"
-   else
-        git commit -m "$i"
-   fi
+comme () {
+	git add --all
+	if (($# > 1))
+	then
+		params=''
+		for i in $*
+		do
+			params=" $params $i"
+		done
+		git commit -m "$params"
+	else
+		git commit -m "$1"
+	fi
 }

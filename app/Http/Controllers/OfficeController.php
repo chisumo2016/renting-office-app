@@ -25,7 +25,8 @@ class OfficeController extends Controller
 {
     public  function  index() : JsonResource
     {
-
+        //dd(auth()->guard('sanctum')->user() );
+        //dd(auth()->user() );
         $offices = Office::query()
             ->when(request('user_id') && auth()->user() && request('user_id') == auth()->id(),
                   fn($builder) => $builder,//return all the results
