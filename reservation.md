@@ -174,7 +174,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 [ ] Use the default disk to store public images so it's easier to switch tp different drivers in production
 [x] Switch to using Sanctum guard by default
 [x] use the new [assertNotSofDeleted]  https://github.com/laravel/framework/pull/38886
-[ ] use the new LazilyRefreshDatabase testing trait on the base test case
+[x] use the new LazilyRefreshDatabase testing trait on the base test case
 [x] use keyed implicit binding in the office image routes so laravel scopes to the office that image belongs to [tweet]
   
 ## List Reservations Endpoint 
@@ -185,11 +185,11 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [ x] Can only list their own reservations or reservations on their offices
 
-[ ] Allow filtering by office_id  only for authenticated host
+[x ] Allow filtering by office_id  only for authenticated host
 
 [ ] Allow filtering by user_id  nly for authenticated user
 
-[ ] Allow filtering by date range
+[x] Allow filtering by date range
 
 [ ] Allow filtering by status
 
