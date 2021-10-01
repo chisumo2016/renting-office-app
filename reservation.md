@@ -225,7 +225,8 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 ## HOUSEKEEPING
 [ ] Convert filtering reservation by date to Eloquent Scopes
 [ ] Filter offices by tag
-[] API should the full URI of the image so that the consumer
+[] API should the full URI of the imagee so that the consumer
+
 
 
 
