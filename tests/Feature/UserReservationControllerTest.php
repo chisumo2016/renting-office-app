@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Office;
 use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
@@ -121,6 +122,31 @@ class UserReservationControllerTest extends TestCase
 
         $response = $this->getJson('/api/reservations?'.http_build_query([
                 'status' => Reservation::STATUS_ACTIVE,
+            ]));
+
+        $response
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.id', $reservation->id);
+
+    }
+
+    /**
+     * @test
+     */
+    public function itFiltersResultByOffice()
+    {
+
+        $user = User::factory()->create();
+
+        $office = Office::factory()->create();
+
+        $reservation = Reservation::factory()->for($office)->for($user)->create();
+        $reservation2 = Reservation::factory()->for($user)->create();
+
+        $this->actingAs($user);
+
+        $response = $this->getJson('/api/reservations?'.http_build_query([
+                'office_id' => $office->id,
             ]));
 
         $response
