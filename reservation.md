@@ -193,9 +193,9 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [x ] Allow filtering by status
 
-[] Paginate
+[x] Paginate
 
-## Make  Reservations Endpoint
+## Make  Reservations Endpoint (Host)
 
 [ ] Must be authenticated  & email verified
 
@@ -205,7 +205,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [ ] Validate no other reservation conflicts with the same time
 
-[]Use locks to make the process atomic
+[ ] Use locks to make the process atomic
 
 [] Email user and Host when a reservation is make
 [] Email user and Host on reservation start day
@@ -222,7 +222,10 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [ ] Can only cancel  an active reservation that has a start_date in the future
 
-## Handling Billing with Cashier
+## HOUSEKEEPING
+[ ] Convert filtering reservation by date to Eloquent Scopes
+[ ] Filter offices by tag
+[] API should the full URI of the image so that the consumer
 
 
 

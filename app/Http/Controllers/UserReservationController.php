@@ -10,7 +10,6 @@ use Illuminate\Validation\Rule;
 
 class UserReservationController extends Controller
 {
-
     public  function index()
     {
         abort_unless(auth()->user()->tokenCan('reservations.show'),
