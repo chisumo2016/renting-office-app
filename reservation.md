@@ -173,7 +173,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 [x] Delete all images when deleting an office
 [ ] Use the default disk to store public images so it's easier to switch tp different drivers in production
 [x] Switch to using Sanctum guard by default
-[] use the new [assertNotSofDeleted]  /laravel/framework/pull/388
+[x] use the new [assertNotSofDeleted]  https://github.com/laravel/framework/pull/38886
 [ ] use the new LazilyRefreshDatabase testing trait on the base test case
 [x] use keyed implicit binding in the office image routes so laravel scopes to the office that image belongs to [tweet]
   

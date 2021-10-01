@@ -479,11 +479,12 @@ class OfficeControllerTest extends TestCase
         //422vendor/symfony/http-foundation/Response.php
         //$response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertUnprocessable();
+        $this->assertNotSoftDeleted($office);
         //dd($office->fresh());
-        $this->assertDatabaseHas('offices',[
+        /*$this->assertDatabaseHas('offices',[
             'id'=> $office->id,
             'deleted_at'=>null
-        ]);
+        ]);*/
     }
 
 }
