@@ -187,7 +187,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [x ] Allow filtering by office_id  only for authenticated host
 
-[ ] Allow filtering by user_id  nly for authenticated user
+[ ] Allow filtering by user_id  only for authenticated user
 
 [x] Allow filtering by date range
 
@@ -195,7 +195,13 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [x] Paginate
 
-## Make  Reservations Endpoint (Host)
+## TODO
+[x ] Convert filtering reservation by date to Eloquent Scopes -Inside the Reservations models
+[ ] Filter offices by tag
+[ ] Included reservations that started before range and ended after range while filtering
+
+
+## Make  Reservations Endpoint (Host) Ep 8
 
 [ ] Must be authenticated  & email verified
 
@@ -208,7 +214,9 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 [ ] Use locks to make the process atomic
 
 [] Email user and Host when a reservation is make
+
 [] Email user and Host on reservation start day
+
 [] Generate WIFI password for new reservations (store encrypted)
 
 
@@ -222,10 +230,6 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [ ] Can only cancel  an active reservation that has a start_date in the future
 
-## HOUSEKEEPING
-[ ] Convert filtering reservation by date to Eloquent Scopes
-[ ] Filter offices by tag
-[] API should the full URI of the imagee so that the consumer
 
 
 
