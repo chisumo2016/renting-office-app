@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ReservationResource;
+use App\Models\Office;
 use App\Models\Reservation;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class UserReservationController extends Controller
 {
@@ -47,6 +50,25 @@ class UserReservationController extends Controller
         abort_unless(auth()->user()->tokenCan('reservations.make'),
             Response::HTTP_FORBIDDEN
         );
+
+        validator(request()->all(), [
+            'office_id'     => ['required', 'integer'],
+            'start_date'    => ['required', 'date:Y-m-d'],
+            'end_date'      => ['required', 'date:Y-m-d'],
+        ]);
+
+        try {
+            $office = Office::findOrFail(request('office_id'));
+        }catch(ModelNotFoundException $e){
+            throw ValidationException::withMessages([
+              'office_id' => 'Invalid Office_id'
+            ]);
+        }
+        if ($office->user_id == auth()->id()) {
+            throw ValidationException::withMessages([
+             'office_id' => 'You cannot make a reservation on your own office'
+          ]);
+        }
     }
 }
 

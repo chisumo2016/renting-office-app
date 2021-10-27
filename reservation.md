@@ -205,9 +205,9 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [ x ] Must be authenticated  & email verified- api route
 
-[ ] Token (if exists) must allow `office.make`
+[ x] Token (if exists) must allow `reservations.make`
 
-[ ] Cannot make reservations on their own property
+[x ] Cannot make reservations on their own property
 
 [ ] Validate no other reservation conflicts with the same time
 
