@@ -489,6 +489,28 @@ class OfficeControllerTest extends TestCase
         ]);*/
     }
 
+    /**
+     * @test
+     */
+    public function itFiltersByTags()
+    {
+        $tags = Tag::factory(2)->create();
+
+        $office =Office::factory()->hasAttached($tags)->create();
+        $office::factory()->hasAttached($tags->first())->create();
+        $office::factory()->create();
+
+        $response = $this->get(
+            '/api/offices?'. http_build_query([
+                'tags'=>$tags->pluck('id')->toArray()
+           ])
+        );
+        //dd($response->json());
+        $response->assertOk();
+        $response->assertJsonCount(1,'data');
+        $this->assertEquals($office->id,$response->json('data')[0]['id']);
+    }
+
 }
 
 //
