@@ -61,7 +61,8 @@ class UserReservationController extends Controller
         ])->validate();
 
         try {
-            $office = Office::findOrFail($data('office_id'));
+            $office = Office::findOrFail($data['office_id']);
+
         }catch(ModelNotFoundException $e){
             throw ValidationException::withMessages([
               'office_id' => 'Invalid Office_id'
@@ -72,6 +73,12 @@ class UserReservationController extends Controller
             throw ValidationException::withMessages([
              'office_id' => 'You cannot make a reservation on your own office'
           ]);
+        }
+
+        if ($office->hidden || $office->approval_status == Office::APPROVAL_PENDING) {
+            throw ValidationException::withMessages([
+                'office_id' => 'You cannot make a reservation on a hidden office'
+            ]);
         }
         $reservation = Cache::lock('reservations_office_'.$office,10)->block(3, function () use ($data, $office) {
             $numberOfDays = Carbon::parse($data['end_date'])->endOfDay()->diffInDays(

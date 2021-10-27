@@ -173,8 +173,8 @@ class UserReservationControllerTest extends TestCase
 
         $response = $this->postJson('/api/reservations',[
             'office_id'     => $office->id,
-            'start_date'    => now()->addDays(1),
-            'end_date'      => now()->addDays(41),
+            'start_date'    => now()->addDay(),
+            'end_date'      => now()->addDays(40),
         ]);
         $response->assertCreated();
         $response
@@ -194,13 +194,13 @@ class UserReservationControllerTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->postJson('/api/reservations',[
-            'office_id'     => 1000,
-            'start_date'    => now()->addDays(1),
+            'office_id' => 10000,
+            'start_date'    => now()->addDay(),
             'end_date'      => now()->addDays(41),
         ]);
 
         $response->assertUnprocessable()
-            ->assertJsonValidationErrors(['office_id'=>'Invalid office_id']);
+            ->assertJsonValidationErrors(['office_id' => 'Invalid office_id']);
     }
 
     /**
@@ -216,7 +216,7 @@ class UserReservationControllerTest extends TestCase
 
         $response = $this->postJson('/api/reservations',[
             'office_id'     => $office->id,
-            'start_date'    => now()->addDays(1),
+            'start_date'    => now()->addDay(),
             'end_date'      => now()->addDays(41),
         ]);
 
@@ -237,12 +237,12 @@ class UserReservationControllerTest extends TestCase
 
         $response = $this->postJson('/api/reservations',[
             'office_id'     => $office->id,
-            'start_date'    => now()->addDays(1),
-            'end_date'      => now()->addDays(1),
+            'start_date'    => now()->addDay(),
+            'end_date'      => now()->addDay(),
         ]);
 
         $response->assertUnprocessable()
-            ->assertJsonValidationErrors(['start_date'=>'You cannot make a reservation for only 1 day']);
+            ->assertJsonValidationErrors(['end_date'=>'The end date must be a date after start date.']);
     }
 
     /**
@@ -258,7 +258,7 @@ class UserReservationControllerTest extends TestCase
 
         $response = $this->postJson('/api/reservations',[
             'office_id'     => $office->id,
-            'start_date'    => now()->addDays(1),
+            'start_date'    => now()->addDay(),
             'end_date'      => now()->addDays(2),
         ]);
 
@@ -272,7 +272,7 @@ class UserReservationControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $fromDate = now()->addDay(1)->toDateString();
+        $fromDate = now()->addDays(2)->toDateString();
         $toDate   =  now()->addDay(15)->toDateString();
 
         $office = Office::factory()->create();
@@ -287,11 +287,46 @@ class UserReservationControllerTest extends TestCase
         $response = $this->postJson('/api/reservations',[
             'office_id'     => $office->id,
             'start_date'    => $fromDate,
-            'end_date'      => now()->addDays(2),
+            'end_date'      => $toDate,
         ]);
 
       $response->assertUnprocessable()
            ->assertJsonValidationErrors(['office_id' => 'You cannot make a reservation during this time']);
+    }
+    /**
+     * @test
+     */
+    public  function  itCannotMakeReservationOnOfficeThatIsPendingOrHidden()
+    {
+        $user = User::factory()->create();
+
+        $office = Office::factory()->create([
+            'approval_status' => Office::APPROVAL_PENDING
+        ]);
+
+        $office2 = Office::factory()->create([
+             'hidden' => true
+         ]);
+
+        $this->actingAs($user);
+
+        $response = $this->postJson('/api/reservations', [
+            'office_id' => $office->id,
+            'start_date' => now()->addDay(),
+            'end_date' => now()->addDays(41),
+        ]);
+
+        $response2 = $this->postJson('/api/reservations', [
+            'office_id' => $office2->id,
+            'start_date' => now()->addDay(),
+            'end_date' => now()->addDays(41),
+        ]);
+
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors(['office_id' => 'You cannot make a reservation on a hidden office']);
+
+        $response2->assertUnprocessable()
+            ->assertJsonValidationErrors(['office_id' => 'You cannot make a reservation on a hidden office']);
     }
 
 }
