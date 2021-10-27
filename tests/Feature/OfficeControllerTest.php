@@ -138,7 +138,7 @@ class OfficeControllerTest extends TestCase
 
         $response = $this->get('/api/offices');
 
-        //$response->dump();
+        $response->dump();
         $response->assertOk()
             ->assertJsonCount(1, 'data.0.tags')
             ->assertJsonCount(1, 'data.0.images')

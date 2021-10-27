@@ -26,8 +26,10 @@ class OfficeImageController extends Controller
         ]);
 
         //Store the file
-       $path = request()->file('image')->storePublicly('/', ['disk'=>'public']);
        //$path = request()->file('image');
+       //$path = request()->file('image')->storePublicly('/', ['disk'=>'public']);
+       $path = request()->file('image')->storePublicly('/');
+
 
        //create an image belong to this office or attach to office
        $image = $office->images()->create([
