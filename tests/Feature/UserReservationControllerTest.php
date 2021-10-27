@@ -372,7 +372,7 @@ class UserReservationControllerTest extends TestCase
             'start_date'    => now()->addDay(),
             'end_date'      => now()->addDays(2),
         ]);
-
+        //dd(DB::table('reservations')->get());
         Notification::assertSentTo($user, NewUserReservation::class);
         Notification::assertSentTo($office->user,  NewHostReservation::class);
 

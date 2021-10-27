@@ -217,7 +217,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 [X]Test you can make a reservation starting next day but cannot make one on same day
 [X] Email user and Host when a reservation is make  (make:notification NewUserReservation)
 [x] Email user and Host on reservation start day (make:command SendDueReservationsNotifications)
-[] Generate WIFI password for new reservations (store encrypted)
+[X] Generate WIFI password for new reservations (store encrypted)
 
 
 ## Cancel  Reservations Endpoint
@@ -231,7 +231,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [] Filter offices by Tag
 []API should return the full URI of the image so that the consumer can lead it easily
-
+[]Test SendDueReservationsNotifications command
 
 
 

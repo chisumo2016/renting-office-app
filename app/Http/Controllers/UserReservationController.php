@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
@@ -115,7 +116,8 @@ class UserReservationController extends Controller
                 'start_date'    =>  $data['start_date'],
                 'end_date'      =>  $data['end_date'],
                 'status'        =>  Reservation::STATUS_ACTIVE,
-                'price'         =>$price
+                'price'         =>$price,
+                'wifi_password' => Str::random()
             ]);
         });
 
