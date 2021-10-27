@@ -129,7 +129,6 @@ class UserReservationController extends Controller
         );
     }
 
-
 }
 //count() > 0 replace ->exists()
 /*

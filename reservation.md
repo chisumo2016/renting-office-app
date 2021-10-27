@@ -222,7 +222,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 ## Cancel  Reservations Endpoint
 
-[ ] Must be authenticated  & email verified
+[ x ] Must be authenticated  & email verified
 [ ] Token (if exists) must allow `office.cancel`
 [ ] Can only cancel their own reservation
 [ ] Can only cancel  an active reservation that has a start_date in the future
