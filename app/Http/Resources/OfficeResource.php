@@ -16,9 +16,10 @@ class OfficeResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'user' => UserResource::make($this->user),
-            'images' => UserResource::collection($this->images),
-            'tags' => UserResource::collection($this->tags),
+            'user'      => UserResource::make($this->whenLoaded('user')),
+            'images'    => ImageResource::collection($this->whenLoaded('images')),
+            'tags'      => TagResource::collection($this->whenLoaded('tags')),
+            'reservation_count' => $this->resource->reservations_count ?? 0,
 
             $this->merge(Arr::except(parent::toArray($request), [
                 'created_at',

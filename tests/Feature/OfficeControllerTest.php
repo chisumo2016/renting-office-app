@@ -132,25 +132,25 @@ class OfficeControllerTest extends TestCase
      */
     public function itIncludesImagesTagsAndUser()
     {
-        $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
         $user = User::factory()->create();
-        $office = Office::factory()->for($user)->create();
-        $tag = Tag::factory()->create();
-
-        $office->tags()->attach($tag);
-        $office->images()->create(['path' => 'image.jpg']);
+        Office::factory()->for($user)->hasTags(1)->hasImages(1)->create();
 
         $response = $this->get('/api/offices');
 
-        //dd($response->json());
-        $response->assertOk();
+        //$response->dump();
+        $response->assertOk()
+            ->assertJsonCount(1, 'data.0.tags')
+            ->assertJsonCount(1, 'data.0.images')
+            ->assertJsonPath('data.0.user.id', $user->id);
 
         //dd($response->json('data'));
-        $this->assertIsArray($response->json('data')[0]['tags']);
+
+        /*$this->assertIsArray($response->json('data')[0]['tags']);
         $this->assertCount(1, $response->json('data')[0]['tags']);
         $this->assertIsArray($response->json('data')[0]['images']);
         $this->assertCount(1,$response->json('data')[0]['images']);
-        $this->assertEquals($user->id, $response->json('data')[0]['user']['id']);
+        $this->assertEquals($user->id, $response->json('data')[0]['user']['id']);*/
 
         //$response->dump();
     }

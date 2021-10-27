@@ -230,7 +230,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 ## TODO
 
 [x] Filter offices by Tag
-[]API should return the full URI of the image so that the consumer can lead it easily
+[x]API should return the full URI of the image so that the consumer can lead it easily
 []Test SendDueReservationsNotifications command
 
 
