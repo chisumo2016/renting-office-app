@@ -216,18 +216,15 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 [X] You cannot make a reservation on a pending or a hidden office
 [X]Test you can make a reservation starting next day but cannot make one on same day
 [X] Email user and Host when a reservation is make  (make:notification NewUserReservation)
-[] Email user and Host on reservation start day
+[x] Email user and Host on reservation start day (make:command SendDueReservationsNotifications)
 [] Generate WIFI password for new reservations (store encrypted)
 
 
 ## Cancel  Reservations Endpoint
 
 [ ] Must be authenticated  & email verified
-
 [ ] Token (if exists) must allow `office.cancel`
-
 [ ] Can only cancel their own reservation
-
 [ ] Can only cancel  an active reservation that has a start_date in the future
 
 ## TODO

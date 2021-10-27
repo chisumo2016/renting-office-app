@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewHostReservation extends Notification implements ShouldQueue
+class UserReservationStarting extends Notification implements  ShouldQueue
 {
     use Queueable;
 
@@ -17,7 +17,7 @@ class NewHostReservation extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct( public  Reservation $reservation)
+    public function __construct(public  Reservation $reservation)
     {
         //
     }
