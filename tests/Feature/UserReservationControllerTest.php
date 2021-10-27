@@ -58,35 +58,39 @@ class UserReservationControllerTest extends TestCase
         $toDate   = '2021-04-04';
 
         //inside the date range
-        $reservation1 = Reservation::factory()->for($user)->create([
-            'start_date' => '2021-03-01',
-            'end_date'   => '2021-03-15',
-        ]);
-
-        $reservation2 = Reservation::factory()->for($user)->create([
-            'start_date' => '2021-03-25',
-            'end_date'   => '2021-04-15',
-        ]);
-
-        $reservation3 = Reservation::factory()->for($user)->create([
-            'start_date' => '2021-03-25',
-            'end_date'   => '2021-03-29',
+        $reservations = Reservation::factory()->for($user)->createMany([
+           [
+               'start_date' => '2021-03-01',
+               'end_date'   => '2021-03-15',
+           ],
+           [
+               'start_date' => '2021-03-25',
+               'end_date'   => '2021-04-15',
+           ],
+           [
+               'start_date' => '2021-03-25',
+               'end_date'   => '2021-03-29',
+           ],
+           [
+               'start_date' => '2021-03-01',
+               'end_date'   => '2021-04-15',
+           ],
         ]);
 
         //Within the range but belongs to a different user
         Reservation::factory()->create([
-            'start_date' => '2021-03-25',
-            'end_date'   => '2021-03-29',
+           'start_date' => '2021-03-25',
+           'end_date'   => '2021-03-29',
         ]);
 
         //outside the date range
         Reservation::factory()->for($user)->create([
-            'start_date' => '2021-02-25',
-            'end_date'   => '2021-03-01',
+           'start_date' => '2021-02-25',
+           'end_date'   => '2021-03-01',
         ]);
         Reservation::factory()->for($user)->create([
-            'start_date' => '2021-02-01',
-            'end_date'   => '2021-05-01',
+           'start_date' => '2021-05-01',
+           'end_date'   => '2021-05-01',
         ]);
 
         $this->actingAs($user);
@@ -99,11 +103,10 @@ class UserReservationControllerTest extends TestCase
         //dd($response->json('data'));
         //dd( collect($response->json('data'))->pluck('id'));
         $response
-            ->assertJsonCount(3, 'data');
-            $this->assertEquals(
-                [$reservation1->id,$reservation2->id,$reservation3->id],
+            ->assertJsonCount(4, 'data');
+            $this->assertEquals($reservations->pluck('id')->toArray(),
                 collect($response->json('data'))
-                                ->pluck('id')->toArray());
+                                 ->pluck('id')->toArray());
     }
 
     /**
@@ -111,7 +114,6 @@ class UserReservationControllerTest extends TestCase
      */
     public function itFiltersResultByStatus()
     {
-
         $user = User::factory()->create();
         $reservation = Reservation::factory()->for($user)->create([
             'status' => Reservation::STATUS_ACTIVE

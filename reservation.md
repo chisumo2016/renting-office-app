@@ -198,7 +198,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 ## TODO
 [x ] Convert filtering reservation by date to Eloquent Scopes -Inside the Reservations models
 [ ] Filter offices by tag
-[ ] Included reservations that started before range and ended after range while filtering
+[x] Included reservations that started before range and ended after range while filtering
 
 
 ## Make  Reservations Endpoint (Host) Ep 8
