@@ -203,7 +203,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 ## Make  Reservations Endpoint (Host) Ep 8
 
-[ ] Must be authenticated  & email verified
+[ x ] Must be authenticated  & email verified- api route
 
 [ ] Token (if exists) must allow `office.make`
 
