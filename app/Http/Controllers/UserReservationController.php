@@ -129,6 +129,21 @@ class UserReservationController extends Controller
         );
     }
 
+    public  function cancel(Reservation $reservation)
+    {
+        abort_unless(auth()->user()->tokenCan('reservations.cancel'),
+         Response::HTTP_FORBIDDEN
+        );
+
+        //Can only cancel their own reservation
+        if ($reservation->user_id != auth()->id()) {
+             throw ValidationException::withMessages([
+                 'reservation' =>'You cannot cancel this reservation'
+             ]);
+        }
+    }
+
+
 }
 //count() > 0 replace ->exists()
 /*
