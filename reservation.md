@@ -211,12 +211,12 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [x] Validate no other reservation conflicts with the same time
 
-[ X] Use locks to make the process atomic
-
+[X] Use locks to make the process atomic
+[ x]Read request input from the validator
+[] You cannot make a reservation on a pending or a hidden office
+[]Test you can make a reservation starting next day but cannot make one on same day
 [] Email user and Host when a reservation is make
-
 [] Email user and Host on reservation start day
-
 [] Generate WIFI password for new reservations (store encrypted)
 
 
@@ -232,7 +232,8 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 ## TODO
 
-[] You cannot make  a reservation on a pending or a hidden office
+[] Filter offices by Tag
+[]API should return the full URI of the image so that the consumer can lead it easily
 
 
 
