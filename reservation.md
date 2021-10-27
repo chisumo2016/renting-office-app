@@ -224,8 +224,8 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [x] Must be authenticated  & email verified
 [x] Token (if exists) must allow `reservations.cancel`
-[ ] Can only cancel their own reservation
-[ ] Can only cancel  an active reservation that has a start_date in the future
+[X] Can only cancel their own reservation
+[X ] Can only cancel  an active reservation that has a start_date in the future
 
 ## TODO
 

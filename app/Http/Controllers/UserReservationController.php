@@ -136,11 +136,27 @@ class UserReservationController extends Controller
         );
 
         //Can only cancel their own reservation
-        if ($reservation->user_id != auth()->id()) {
+        if ($reservation->user_id != auth()->id() ||
+                $reservation->status == Reservation::STATUS_CANCELLED || $reservation->start_date < now()->toDateString()){
              throw ValidationException::withMessages([
                  'reservation' =>'You cannot cancel this reservation'
              ]);
         }
+
+        $reservation->update([
+            'status' => Reservation::STATUS_CANCELLED
+        ]);
+
+        return ReservationResource::make(
+            $reservation->load('office')
+        );
+
+        /*//Can only cancel  an active reservation that has a start_date in the future
+        if ($reservation->status != Reservation::STATUS_ACTIVE) {
+            throw ValidationException::withMessages([
+            'reservation' =>'You cannot cancel this reservation'
+        ]);
+        }*/
     }
 
 
