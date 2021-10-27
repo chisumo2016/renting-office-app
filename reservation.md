@@ -209,7 +209,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [x ] Cannot make reservations on their own property
 
-[ ] Validate no other reservation conflicts with the same time
+[x] Validate no other reservation conflicts with the same time
 
 [ ] Use locks to make the process atomic
 
