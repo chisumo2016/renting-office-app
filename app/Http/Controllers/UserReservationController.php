@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ReservationResource;
 use App\Models\Office;
 use App\Models\Reservation;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
@@ -47,6 +49,7 @@ class UserReservationController extends Controller
 
     public function  create()
     {
+
         abort_unless(auth()->user()->tokenCan('reservations.make'),
             Response::HTTP_FORBIDDEN
         );
@@ -64,18 +67,56 @@ class UserReservationController extends Controller
               'office_id' => 'Invalid Office_id'
             ]);
         }
+
         if ($office->user_id == auth()->id()) {
             throw ValidationException::withMessages([
              'office_id' => 'You cannot make a reservation on your own office'
           ]);
         }
+        $reservation = Cache::lock('reservations_office_'.$office,10)->block(3, function () use ($office) {
+            $numberOfDays = Carbon::parse(request('end_date'))->endOfDay()->diffInDays(
+                Carbon::parse(request('start_date'))->startOfDay()
+            ) + 1 ;
 
-        if($office->resevations()->ActiveBetween(request('start_date'), request('end_date'))->exists()){
-            throw ValidationException::withMessages([
-                'office_id' => 'You cannot make a reservation during this time'
+            if ($numberOfDays < 2) {
+                throw ValidationException::withMessages([
+                'start_date' => 'You cannot make a reservation for only 1 day'
             ]);
-        }
+            }
+
+            if($office->reservations()->ActiveBetween(request('start_date'), request('end_date'))->exists()){
+                throw ValidationException::withMessages([
+                    'office_id' => 'You cannot make a reservation during this time'
+                ]);
+            }
+
+
+            $price = $numberOfDays * $office->price_per_day;
+
+            if ($numberOfDays >= 28 && $office->montly_discount){
+                    //$price -= ($price * $office->monthly_discount / 100);
+                    $price = $price -($price * $office->monthly_discount / 100);
+
+            }
+            //dd($price);
+            return Reservation::create([
+                'user_id'       =>  auth()->id(),
+                'office_id'     =>  $office->id,
+                'start_date'    =>  request('start_date'),
+                'end_date'      =>  request('end_date'),
+                'status'        =>  Reservation::STATUS_ACTIVE,
+                'price'         =>$price
+
+
+            ]);
+        });
+
+        return ReservationResource::make(
+            $reservation->load('office')
+        );
     }
+
+
 }
 //count() > 0 replace ->exists()
 /*

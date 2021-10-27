@@ -48,7 +48,7 @@ class Reservation extends Model
 
     public function  ScopeActiveBetween($query, $from , $to)
     {
-        return $query->whereStatus(Reservation::STATUS_ACTIVE)
-            ->betweenDates($from , $to);
+        $query->whereStatus(Reservation::STATUS_ACTIVE)
+            ->betweenDates($from, $to);
     }
 }

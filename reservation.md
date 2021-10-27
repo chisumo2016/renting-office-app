@@ -211,7 +211,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [x] Validate no other reservation conflicts with the same time
 
-[ ] Use locks to make the process atomic
+[ X] Use locks to make the process atomic
 
 [] Email user and Host when a reservation is make
 
@@ -230,7 +230,9 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 
 [ ] Can only cancel  an active reservation that has a start_date in the future
 
+## TODO
 
+[] You cannot make  a reservation on a pending or a hidden office
 
 
 
