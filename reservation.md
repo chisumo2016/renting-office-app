@@ -215,7 +215,7 @@ NB:Send a notification inside the controller or Que (implements ShouldQueue)
 [X]Read request input from the validator
 [X] You cannot make a reservation on a pending or a hidden office
 [X]Test you can make a reservation starting next day but cannot make one on same day
-[] Email user and Host when a reservation is make
+[X] Email user and Host when a reservation is make  (make:notification NewUserReservation)
 [] Email user and Host on reservation start day
 [] Generate WIFI password for new reservations (store encrypted)
 

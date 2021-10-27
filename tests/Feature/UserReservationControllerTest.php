@@ -5,10 +5,13 @@ namespace Tests\Feature;
 use App\Models\Office;
 use App\Models\Reservation;
 use App\Models\User;
+use App\Notifications\NewHostReservation;
+use App\Notifications\NewUserReservation;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class UserReservationControllerTest extends TestCase
@@ -176,6 +179,7 @@ class UserReservationControllerTest extends TestCase
             'start_date'    => now()->addDay(),
             'end_date'      => now()->addDays(40),
         ]);
+        //dd($response->json());
         $response->assertCreated();
         $response
             ->assertJsonPath('data.price', 40000)
@@ -198,9 +202,10 @@ class UserReservationControllerTest extends TestCase
             'start_date'    => now()->addDay(),
             'end_date'      => now()->addDays(41),
         ]);
+        //dd($response->json());
 
         $response->assertUnprocessable()
-            ->assertJsonValidationErrors(['office_id' => 'Invalid office_id']);
+            ->assertJsonValidationErrors(['office_id' => 'Invalid Office_id']);
     }
 
     /**
@@ -347,6 +352,31 @@ class UserReservationControllerTest extends TestCase
 
         $response2->assertUnprocessable()
             ->assertJsonValidationErrors(['office_id' => 'You cannot make a reservation on a hidden office']);
+    }
+
+    /**
+     * @test
+     */
+    public  function  itSendsNotificationsOnNewReservations()
+    {
+        Notification::fake();
+
+        $user = User::factory()->create();
+
+        $office = Office::factory()->create();
+
+        $this->actingAs($user);
+
+        $response = $this->postJson('/api/reservations',[
+            'office_id'     => $office->id,
+            'start_date'    => now()->addDay(),
+            'end_date'      => now()->addDays(2),
+        ]);
+
+        Notification::assertSentTo($user, NewUserReservation::class);
+        Notification::assertSentTo($office->user,  NewHostReservation::class);
+
+        $response->assertCreated();
     }
 
 }
